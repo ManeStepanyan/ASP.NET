@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer
-{
+{ /// <summary>
+/// class which corresponds to the product table from Database
+/// </summary>
     public class ProductDAL
     {
         public int ID { get; set; }

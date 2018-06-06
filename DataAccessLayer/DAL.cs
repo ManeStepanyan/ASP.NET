@@ -15,6 +15,11 @@ namespace DataAccessLayer
             this.connectionString = System.Configuration.ConfigurationManager.
             ConnectionStrings["NameOfMyStringConnection"].ConnectionString;
         }
+        /// <summary>
+        /// Getting product by ID
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         public ProductDAL GetProductByID(int ID)
         {
             ProductDAL product = new ProductDAL();
@@ -35,6 +40,10 @@ namespace DataAccessLayer
                 return product;
             }
         }
+        /// <summary>
+        /// Getting all products
+        /// </summary>
+        /// <returns></returns>
         public List<ProductDAL> GetAllProducts()
         {
             List<ProductDAL> products = new List<ProductDAL>();
@@ -57,6 +66,10 @@ namespace DataAccessLayer
             }
             return products;
         }
+        /// <summary>
+        /// Inserting product
+        /// </summary>
+        /// <param name="product"></param>
         public void InsertProduct(ProductDAL product)
         {
             using (SqlConnection connection = new SqlConnection())
@@ -77,7 +90,13 @@ namespace DataAccessLayer
                 cmd.ExecuteNonQuery();
             }
         }
-        public void UpdatePrice(int ID, double newPrice)
+        /// <summary>
+        /// Updating Product
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="newName"></param>
+        /// <param name="newPrice"></param>
+        public void UpdateProduct(int ID, string newName, double newPrice)
         {
             using (SqlConnection connection = new SqlConnection())
             {
@@ -86,15 +105,21 @@ namespace DataAccessLayer
                 // prepare command string
                 string updateString = @"
                  update Product
-                 set Price = @newPrice
+                 set Price = @newPrice,
+                 set Name=@newName
                  where ID=@ID";
                 // 1. Instantiate a new command with command text only
                 SqlCommand cmd = new SqlCommand(updateString, connection);
                 cmd.Parameters.AddWithValue("@newPrice", newPrice);
                 cmd.Parameters.AddWithValue("@ID", ID);
+                cmd.Parameters.AddWithValue("@newName", newName);
                 cmd.ExecuteNonQuery();
             }
         }
+        /// <summary>
+        /// Deleting product
+        /// </summary>
+        /// <param name="ID"></param>
         public void DeleteProduct(int ID)
         {
             using (SqlConnection connection = new SqlConnection())
