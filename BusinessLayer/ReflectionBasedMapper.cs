@@ -1,12 +1,11 @@
-﻿// չմոռանաս մի հատ մեթոդ գրես
-namespace BusinessLayer
+﻿namespace BusinessLayer
 {
     /// <summary>
     /// Mapping products for corresponding layers
     /// </summary>
     /// <typeparam name="TS"></typeparam>
     /// <typeparam name="TD"></typeparam>
-    public class ReflectionBasedMapper<TS, TD> : IMapper<TS, TD> where TS : new() where TD : new()
+    public class ReflectionBasedMapper<TS, TD,T1,T2> : IMapper<TS, TD> where TS : new() where TD : new() where T1:new() where T2:new()
     {
         /// <summary>
         /// mapping from source to destionation
@@ -15,7 +14,8 @@ namespace BusinessLayer
         /// <returns></returns>
         public TD Map(TS source)
         {
-            var destination = new TD();
+            return Helper<TS, TD>(source);
+            /*var destination = new TD();
             var sourcetype = source.GetType();
             var destinationtype = destination.GetType();
             var sourceProperties = sourcetype.GetProperties();
@@ -28,7 +28,7 @@ namespace BusinessLayer
                     prop.SetValue(destination, item.GetValue(source));
                 }
             }
-            return destination;
+            return destination; */
         }
 
         /// <summary>
@@ -38,7 +38,25 @@ namespace BusinessLayer
         /// <returns></returns>
         public TS MapBack(TD source)
         {
-            var destination = new TS();
+            return Helper<TD,TS>(source);
+          /*  var destination = new TS();
+            var sourcetype = source.GetType();
+            var destinationtype = destination.GetType();
+            var sourceProperties = sourcetype.GetProperties();
+
+            foreach (var item in sourceProperties)
+            {
+                var prop = destinationtype.GetProperty(item.Name);
+                if (prop != null)
+                {
+                    prop.SetValue(destination, item.GetValue(source));
+                }
+            }
+            return destination; */
+        }
+        public T2 Helper<T1,T2>(T1 source) where T1:new() where T2:new()
+        {
+            var destination = new T2();
             var sourcetype = source.GetType();
             var destinationtype = destination.GetType();
             var sourceProperties = sourcetype.GetProperties();
@@ -53,5 +71,6 @@ namespace BusinessLayer
             }
             return destination;
         }
+
     }
 }

@@ -16,12 +16,10 @@ namespace MVC.Controllers
         public ActionResult Index()
         {
             var prodInfo = new List<Product>();
-            // դզել
-            var baseurl = "http://localhost:52004/";
             using (var client = new HttpClient())
             {
                 //Passing service base url  
-                client.BaseAddress = new Uri(baseurl);
+                client.BaseAddress = new Uri(System.Configuration.ConfigurationManager.AppSettings["AddressWebAPI"]);
 
                 client.DefaultRequestHeaders.Clear();
                 // Define request data format  
