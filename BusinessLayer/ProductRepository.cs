@@ -1,73 +1,85 @@
 ﻿using DataAccessLayer;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer
-{/// <summary>
-/// Business Layer to perform crud operations
-/// </summary>
+{
+    /// <summary>
+    /// Business Layer to perform crud operations
+    /// </summary>
     public class ProductRepository
     {
-        private readonly DAL dal; // instance of data access layer
+        /// <summary>
+        /// instance of data access layer
+        /// </summary>       
+        private readonly DAL dal;
+
+        /// <summary>
+        /// Instance of mapper 
+        /// </summary>
+        private readonly ReflectionBasedMapper<ProductBL, ProductDAL> mapper;
+
+        /// <summary>
+        /// Creates Product Repository
+        /// </summary>
         public ProductRepository()
         {
-            dal = new DAL();
+            this.dal = new DAL();
+            this.mapper = new ReflectionBasedMapper<ProductBL, ProductDAL>();
         }
+
         /// <summary>
         /// Getting product by specified ID
         /// </summary>
-        /// <param name="ID"></param>
+        /// <param name="id">ID</param>
         /// <returns></returns>
-        public ProductBL GetProductByID(int ID)
+        public ProductBL GetProductByID(int id)
         {
-            ReflectionBasedMapper<ProductBL, ProductDAL> mapper = new ReflectionBasedMapper<ProductBL, ProductDAL>();
-            return mapper.MapBack(dal.GetProductByID(ID));
+            return this.mapper.MapBack(this.dal.GetProductByID(id));
         }
+
         /// <summary>
         /// Getting all the products
         /// </summary>
         /// <returns></returns>
-        public List<ProductBL> GetALlProducts()
+        public List<ProductBL> GetAll()
         {
-            ReflectionBasedMapper<ProductBL, ProductDAL> mapper = new ReflectionBasedMapper<ProductBL, ProductDAL>();
-            List<ProductBL> list = new List<ProductBL>();
-            var products = dal.GetAllProducts();
+            var list = new List<ProductBL>();
+            var products = this.dal.GetAllProducts();
+
             foreach (var item in products)
             {
-                var temp = item;
-                list.Add(mapper.MapBack(temp));
+                list.Add(this.mapper.MapBack(item));
             }
             return list;
         }
+
         /// <summary>
         /// Add new product
         /// </summary>
         /// <param name="product"></param>
         public void InsertProduct(ProductBL product)
-        {
-            ReflectionBasedMapper<ProductBL, ProductDAL> mapper = new ReflectionBasedMapper<ProductBL, ProductDAL>();
-            dal.InsertProduct(mapper.Map(product));
+        {         
+            this.dal.InsertProduct(this.mapper.Map(product));
         }
+
         /// <summary>
         /// Update a product
         /// </summary>
-        /// <param name="ID"></param>
+        /// <param name="id"></param>
         /// <param name="newName"></param>
         /// <param name="newPrice"></param>
-        public void Update(int ID,string newName, double newPrice)
+        public void Update(int id, ProductBL product)
         {
-            dal.UpdateProduct(ID, newName, newPrice);
+            this.dal.UpdateProduct(id, product.Name, product.Price);
         }
+
         /// <summary>
         /// deleting a product
         /// </summary>
-        /// <param name="ID"></param>
-        public void DeleteProduct(int ID)
+        /// <param name="id"></param>
+        public void DeleteProduct(int id)
         {
-            dal.DeleteProduct(ID);
+            this.dal.DeleteProduct(id);
         }
     }
 }

@@ -1,44 +1,55 @@
 ﻿using BusinessLayer;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace WebAPI.Controllers
 {
+    /// <summary>
+    /// Products controller
+    /// </summary>
     public class ProductsController : ApiController
     {
-        private static readonly ProductRepository repository = new ProductRepository();
+        /// <summary>
+        /// Instance of repository
+        /// </summary>
+        private readonly ProductRepository repository;
+
+        /// <summary>
+        /// Controller creation
+        /// </summary>
+        public ProductsController()
+        {
+            this.repository = new ProductRepository();
+        }
+
         // GET: api/Products
         public IEnumerable<ProductBL> Get()
         {
-            return repository.GetALlProducts();
+            return this.repository.GetAll();
         }
 
         // GET: api/Products/5
         public ProductBL Get(int id)
         {
-            return repository.GetProductByID(id);
+            return this.repository.GetProductByID(id);
         }
 
         // POST: api/Products
         public void Post([FromBody]ProductBL product)
         {
-            repository.InsertProduct(product);
+            this.repository.InsertProduct(product);
         }
 
         // PUT: api/Products/5
-        public void Put(int id, [FromBody]double newPrice)
+        public void Put(int id, [FromBody] ProductBL product)
         {
-            repository.UpdatePrice(id, newPrice);
+            this.repository.Update(id, product);
         }
 
         // DELETE: api/Products/5
         public void Delete(int id)
         {
-            repository.DeleteProduct(id);
+            this.repository.DeleteProduct(id);
         }
     }
 }

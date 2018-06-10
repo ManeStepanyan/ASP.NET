@@ -15,32 +15,33 @@ namespace MVC.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            List<Product> ProdInfo = new List<Product>();
-            string Baseurl = "http://localhost:52004/";
+            var prodInfo = new List<Product>();
+            // դզել
+            var baseurl = "http://localhost:52004/";
             using (var client = new HttpClient())
             {
                 //Passing service base url  
-                client.BaseAddress = new Uri(Baseurl);
+                client.BaseAddress = new Uri(baseurl);
 
                 client.DefaultRequestHeaders.Clear();
-                //Define request data format  
+                // Define request data format  
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                //Sending request to find web api REST service resource GetAllEmployees using HttpClient  
-                var res = client.GetAsync("http://localhost:52004/api/Products/").Result;
+                // Sending request to find web api REST service resource GetAllEmployees using HttpClient  
+                var res = client.GetAsync("api/Products/").Result;
 
-                //Checking the response is successful or not which is sent using HttpClient  
+                // Checking the response is successful or not which is sent using HttpClient  
                 if (res.IsSuccessStatusCode)
                 {
-                    //Storing the response details recieved from web api   
-                    var ProdResponse = res.Content.ReadAsStringAsync().Result;
+                    // Storing the response details recieved from web api   
+                    var prodResponse = res.Content.ReadAsStringAsync().Result;
 
-                    //Deserializing the response recieved from web api and storing into the Employee list  
-                    ProdInfo = JsonConvert.DeserializeObject<List<Product>>(ProdResponse);
+                    // Deserializing the response recieved from web api and storing into the Employee list  
+                    prodInfo = JsonConvert.DeserializeObject<List<Product>>(prodResponse);
 
                 }
-                //returning the employee list to view  
-                return View(ProdInfo);
+                // returning the employee list to view  
+                return View(prodInfo);
             }
         }
     }
