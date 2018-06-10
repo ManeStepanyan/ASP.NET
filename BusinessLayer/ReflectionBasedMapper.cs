@@ -5,7 +5,7 @@
     /// </summary>
     /// <typeparam name="TS"></typeparam>
     /// <typeparam name="TD"></typeparam>
-    public class ReflectionBasedMapper<TS, TD,T1,T2> : IMapper<TS, TD> where TS : new() where TD : new() where T1:new() where T2:new()
+    public class ReflectionBasedMapper<TS, TD> : IMapper<TS, TD> where TS : new() where TD : new()
     {
         /// <summary>
         /// mapping from source to destionation
