@@ -1,2 +1,0 @@
-
-![Screenshot](Untitled.jpg)
