@@ -44,7 +44,7 @@ namespace DataAccessLayer
                         product.ID = (int)reader["ID"];
                         product.Name = (string)reader["Name"];
                         product.Price = (double)reader["Price"];
-                        product.Category = (string)reader["Category"];
+                      
                     }
                 }
                 return product;
@@ -74,7 +74,7 @@ namespace DataAccessLayer
                             ID = (int)reader["ID"],
                             Name = (string)reader["Name"],
                             Price = (double)reader["Price"],
-                            Category = (string)reader["Category"]
+                          
                         };
                         products.Add(product);
                     }
@@ -96,14 +96,14 @@ namespace DataAccessLayer
                 // prepare command string
                 var insertString = @"
                  insert into Product
-                (Name,Price,Category)
-                values (@Name,@Price,@Category)";
+                (Name,Price)
+                values (@Name,@Price)";
 
                 // 1. Instantiate a new command with a query and connection
                 var cmd = new SqlCommand(insertString, connection);
                 cmd.Parameters.AddWithValue("@Name", product.Name);
                 cmd.Parameters.AddWithValue("@Price", product.Price);
-                cmd.Parameters.AddWithValue("@Category", product.Category);
+               
 
                 // 2. Call ExecuteNonQuery to send command
                 cmd.ExecuteNonQuery();
